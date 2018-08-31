@@ -13,7 +13,8 @@ class GifListContainer extends Component {
   }
 
   fetchApi = () => {
-    fetch(`http://api.giphy.com/v1/gifs/search?q=${this.state.term}&api_key=dc6zaTOxFJmzC&rating=g`)
+    const term = this.state.term
+    fetch(`http://api.giphy.com/v1/gifs/search?q=${term}&api_key=dc6zaTOxFJmzC&rating=g`)
     .then( resp => resp.json() )
     .then( this.handleData )
   }
@@ -21,7 +22,7 @@ class GifListContainer extends Component {
   handleData = (hi) => {
     console.log(hi);
     this.setState({
-      gifs: hi.data
+      gifs: hi.data.slice(0,3)
     })
   }
 
@@ -39,7 +40,7 @@ class GifListContainer extends Component {
   }
 
   renderGifs = () => {
-    return this.state.gifs.map( (gifObj, index) => <GifList key={index} gifUrl={gifObj.url} />)
+    return this.state.gifs.map( (gifObj, index) => <GifList key={index} gifUrl={gifObj.images.original.url} />)
   }
 
   render() {
